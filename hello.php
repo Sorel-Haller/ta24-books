@@ -1,4 +1,6 @@
 <?php
 
-echo "Hello, World!<br>";
+$user = 'Sörel';
+
+echo "Hello, $user!<br>";
 echo "Hello, World!\n";
