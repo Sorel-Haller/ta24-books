@@ -1,6 +1,8 @@
 <?php
 
-$user = 'Sörel';
+var_dump($_GET);
 
-echo "Hello, $user!<br>";
+$user = 'Sorel';
+
+echo "Hello, {$user}!<br>";
 echo "Hello, World!\n";
