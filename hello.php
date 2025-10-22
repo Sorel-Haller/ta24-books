@@ -3,8 +3,8 @@ var_dump($_GET);
 // kommentaar
 /* blokkommentaar */
 
-if (!isset($_GET["action-submit"]) && isset($_GET["username"]) ) {
-    $user = $_GET["username"];
+if (isset($_POST["action-submit"]) && isset($_POST['username']) ) {
+    $user = $_POST["username"];
 }
 ?>
 
@@ -15,15 +15,17 @@ if (!isset($_GET["action-submit"]) && isset($_GET["username"]) ) {
     <meta charset="utf-8">
 </head>
 <body>  
-    <form action="./hello.php" method="get">
+    <form action="./hello.php" method="POST">
 
         <label for="user">Nimi:</label>
         <input type="text" name="username" id="user">
         <input type="submit" name="action-submit" value="Saada">
     </form>
     
-    <?php if ( !isset($user) ) {?>
+    <?php if ( isset($user) ) {?>
+
         Hello, <?= $user; ?>!
+        
     <?php } ?>
     
 </body>
