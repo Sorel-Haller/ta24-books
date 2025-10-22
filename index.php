@@ -17,7 +17,7 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 $stmt = $pdo->query('SELECT title FROM books');
 while ($row = $stmt->fetch())
 {
-    echo $row['title']. "<br>";
-//  echo "{$row['title']}<br>";
+//    echo $row['title']. "<br>";
+    echo "<a href='book.php' id='title' >{$row['title']}</a><br>";
 
 }
