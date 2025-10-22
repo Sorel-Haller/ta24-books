@@ -1,11 +1,11 @@
 <?php
+var_dump($_GET); 
+// kommentaar
+/* blokkommentaar */
 
-var_dump($_GET);
-//kommentaar /*blok*/
-$user = $GET["user"];
-
-echo "Hello, {$username}!<br>";
-echo "Hello, World!\n";
+if (!isset($_GET["action-submit"]) && isset($_GET["username"]) ) {
+    $user = $_GET["username"];
+}
 ?>
 
 <!doctype html>
@@ -21,5 +21,10 @@ echo "Hello, World!\n";
         <input type="text" name="username" id="user">
         <input type="submit" name="action-submit" value="Saada">
     </form>
+    
+    <?php if ( !isset($user) ) {?>
+        Hello, <?= $user; ?>!
+    <?php } ?>
+    
 </body>
 </html>
