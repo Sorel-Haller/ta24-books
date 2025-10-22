@@ -6,6 +6,29 @@ var_dump($_GET);
 if (isset($_POST["action-submit"]) && isset($_POST['username']) ) {
     $user = $_POST["username"];
 }
+
+$names = ['Tiit', 'Kati', 'Juku', 'Mari', 'Peeter'];
+
+foreach ($names as $key => $name) {
+    echo ($key + 1) . ". {$name}<br>";
+}
+
+for ($i = 0; $i < count($names); $i++) {
+    echo ($i + 1) . ". {$names[$i]} <br>";
+}
+
+$i = 0;
+while ($i < count($names)) {
+    echo ($i + 1) . ". {$names[$i]} <br>";
+    $i++;
+}
+
+$i = 0;
+do {
+    echo ($i + 1) . ". {$names[$i]} <br>";
+    $i++;
+} while ($i < count($names) );
+
 ?>
 
 <!doctype html>
