@@ -1,7 +1,5 @@
 <?php
 var_dump($_GET); 
-// kommentaar
-/* blokkommentaar */
 
 if (isset($_POST["action-submit"]) && isset($_POST['username']) ) {
     $user = $_POST["username"];
