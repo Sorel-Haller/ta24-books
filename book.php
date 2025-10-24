@@ -37,7 +37,6 @@ var_dump($authors);
             <li><?= htmlspecialchars($author['first_name'] . ' ' . $author['last_name']) ?></li>
             <li><?= "{$author['first_name']} {$author['last_name']}" ?></li>
         <?php } ?>
-
     </ul>
 </body>
 </html>
