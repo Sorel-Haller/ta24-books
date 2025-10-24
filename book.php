@@ -29,6 +29,15 @@ var_dump($authors);
     <title><?= htmlspecialchars($book['title']) ?></title>
 <body>
     <h1><?= htmlspecialchars($book['title']) ?></h1>
-    <h3></h3>
+    <h3><?= htmlspecialchars($authors['name']) ?></h3>
+    
+    Autorid:
+    <ul>
+        <?php foreach ($authors as $author) { ?>
+            <li><?= htmlspecialchars($author['first_name'] . ' ' . $author['last_name']) ?></li>
+            <li><?= "{$author['first_name']} {$author['last_name']}" ?></li>
+        <?php } ?>
+
+    </ul>
 </body>
 </html>
