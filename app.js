@@ -6,10 +6,11 @@ searchInput.addEventListener('input', e => {
     console.log(seaqrchInput.value);
 
     Array.from(bookAnchors).forEach(book => {
-        if (book.innerText.lowerCase().includes(seaqrchInput.value.toLowerCase()) ){
-            book.classList.remove('hidden');    
+        if (title.toLowerCase().includes(searchInput.value.toLowerCase()) ){
+
+        bookListContent += '<li><a class="book" href="${href}">${title}</a></li>';
         } else {
-            book.classList.add('hidden');
+            bookListContent = 'hidden';
         };
     }); 
 });

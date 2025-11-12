@@ -40,7 +40,19 @@ if (!$book) {
         <input type="text" name="title" value="<?= $book['title'] ?>" >
         <br>
         <button type="submit" name="action" value="save"> Salvesta</button>
-    </form>
+    </form>            
+
+    <div>
+        Autorid:
+    </div>
+    <ul>
+    <?php foreach ($authors as $author): ?>
+        <li>
+            <?= "($authors['first_name'] $authors['last_name'])" ?>
+        </li>
+    <p><?= htmlspecialchars($author['first_name'] . ' ' . $author['last_name']); ?></p>
+
+    </ul>
 
 </body>
 </html>
