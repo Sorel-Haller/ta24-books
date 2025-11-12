@@ -134,10 +134,10 @@ $authors = $stmt->fetchAll();
     </ul>
     <a href="./edit.php?id"<?php $id; ?> >Muuda</a>
     <br>
-    <a href="./delete.php?id" <?php $id; ?> >Kustuta</a>
-
+    <!-- Delete Book Form -->
     <form action="./delete.php" method="POST" >
-
+            <input type="hidden" name="id" value="<?= $id; ?>">
+            <button type="submit" name="action" value="delete" onclick="return confirm('Oled kindel, et tahad kustutada?');">Kustuta raamat</button>   
     </form>
 
     
