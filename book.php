@@ -64,6 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_book'])) {
         'release_date' => $_POST['release_date'],
         'type' => $_POST['type'],
         'price' => $_POST['price'],
+        'language' => $_POST['language'],
+        'summary' => $_POST['summary'],
+        'pages' => $_POST['pages'],
         'id' => $id
     ]);
 
@@ -110,6 +113,9 @@ $authors = $stmt->fetchAll();
     <p>Aasta: <?= htmlspecialchars($book['release_date']) ?></p>
     <p>Tüüp: <?= htmlspecialchars($book['type']) ?></p>
     <p>Hind: <?= htmlspecialchars($book['price']) ?></p>
+    <p>Lehekülgi: <?= htmlspecialchars($book['pages']) ?></p>
+    <p>Keel: <?= htmlspecialchars($book['language']) ?></p>
+    <p>Sisu: <?= htmlspecialchars($book['summary']) ?></p>
     <?php if (!empty($book['cover_path'])): ?>
         <p>Pilt:</p>
         <img src="<?= htmlspecialchars($book['cover_path']) ?>" alt="<?= htmlspecialchars($book['title']) ?>" style="max-width:200px; height:auto;">
@@ -132,7 +138,7 @@ $authors = $stmt->fetchAll();
             </li>
         <?php endforeach; ?>
     </ul>
-    <a href="./edit.php?id"<?php $id; ?> >Muuda</a>
+    <a href="./edit.php?id=<?= $id ?>">Muuda</a>
     <br>
     <!-- Delete Book Form -->
     <form action="./delete.php" method="POST" >
