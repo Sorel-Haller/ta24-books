@@ -7,92 +7,25 @@ if (!isset($_GET['id']) || !$_GET['id']) {
     exit();
 }
 
-$id = (int)$_GET['id'];
+$id = $_GET['id'];
 
-// ------------------------
-// Handle author deletion
-// ------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_author'])) {
-    $delete_author_id = (int)$_POST['delete_author'];
-
-    // Remove the link between the book and the author
-    $stmt = $pdo->prepare('DELETE FROM book_authors WHERE book_id = :book_id AND author_id = :author_id');
-    $stmt->execute([
-        'book_id' => $id,
-        'author_id' => $delete_author_id
-    ]);
-
-    // Optional: delete the author if they have no other books
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM book_authors WHERE author_id = :author_id');
-    $stmt->execute(['author_id' => $delete_author_id]);
-    if ($stmt->fetchColumn() == 0) {
-        $stmt = $pdo->prepare('DELETE FROM authors WHERE id = :id');
-        $stmt->execute(['id' => $delete_author_id]);
-    }
-
-    header("Location: book.php?id=$id");
-    exit();
-}
-
-// ------------------------
-// Handle adding a new author
-// ------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_author'])) {
-    if (!empty($_POST['first_name']) && !empty($_POST['last_name'])) {
-        // Add author
-        $stmt = $pdo->prepare('INSERT INTO authors (first_name, last_name) VALUES (:first_name, :last_name)');
-        $stmt->execute([
-            'first_name' => $_POST['first_name'],
-            'last_name' => $_POST['last_name']
-        ]);
-
-        // Link author to book
-        $author_id = $pdo->lastInsertId();
-        $stmt = $pdo->prepare('INSERT INTO book_authors (book_id, author_id) VALUES (:book_id, :author_id)');
-        $stmt->execute([
-            'book_id' => $id,
-            'author_id' => $author_id
-        ]);
-
-        echo "<p>Autor lisatud!</p>";
-    }
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_book'])) {
-    $stmt = $pdo->prepare('UPDATE books SET title = :title, release_date = :release_date, type = :type, price = :price WHERE id = :id');
-    $stmt->execute([
-        'title' => $_POST['title'],
-        'release_date' => $_POST['release_date'],
-        'type' => $_POST['type'],
-        'price' => $_POST['price'],
-        'id' => $id
-    ]);
-
-    // Optional: show a success message
-    echo "<p>Raamat uuendatud!</p>";
-
-    // Refresh page to show updated info
-    header("Location: book.php?id=$id");
-    exit();
-}
-// ------------------------
-// Fetch book info
-// ------------------------
+// Fetch book details
 $stmt = $pdo->prepare('SELECT * FROM books WHERE id = :id');
 $stmt->execute(['id' => $id]);
-$book = $stmt->fetch();
+$book = $stmt->fetch(); 
 
-// ------------------------
-// Fetch authors for this book
-// ------------------------
-$stmt = $pdo->prepare('
-    SELECT a.id, a.first_name, a.last_name
-    FROM book_authors ba
-    LEFT JOIN authors a ON ba.author_id = a.id
-    WHERE ba.book_id = :book_id
-');
+$stmt = $pdo->prepare('SELECT first_name, last_name 
+                       FROM book_auhtors ba
+                       LEFT JOIN authors a ON  ba.author_id
+                       WHERE ba.book_id = :book_id');
 $stmt->execute(['book_id' => $id]);
 $authors = $stmt->fetchAll();
-?>
+
+if (!$book) {
+    echo 'Viga: raamatut ei leitud!';
+    exit();
+}
+?>  
 
 <!DOCTYPE html>
 <html lang="en">
@@ -102,14 +35,11 @@ $authors = $stmt->fetchAll();
     <title><?= htmlspecialchars($book['title']) ?></title>
 </head>
 <body>
-    
     <form action="update.php" method="post">
         <input type="hidden" name="id" value="<?= $id; ?>">
-        
         <input type="text" name="title" value="<?= $book['title'] ?>" >
         <br>
-        <button type="submit">Salvesta</button>
+        <button type="submit" name="action" value="save"> Salvesta</button>
     </form>
-
 </body>
 </html>

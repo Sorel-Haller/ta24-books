@@ -132,7 +132,12 @@ $authors = $stmt->fetchAll();
             </li>
         <?php endforeach; ?>
     </ul>
+    <a href="./edit.php?id"<?php $id; ?> >Muuda</a>
+    <br>
+    <a href="./delete.php?id" <?php $id; ?> >Kustuta</a>
 
-    <button>Muuda</button>
+    <form action="./delete.php" method="POST" >
+
+    </form>
 </body>
 </html>
