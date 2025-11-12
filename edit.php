@@ -102,37 +102,14 @@ $authors = $stmt->fetchAll();
     <title><?= htmlspecialchars($book['title']) ?></title>
 </head>
 <body>
-    <h1><?= htmlspecialchars($book['title']) ?></h1>
+    
+    <form action="update.php" method="post">
+        <input type="hidden" name="id" value="<?= $id; ?>">
+        
+        <input type="text" name="title" value="<?= $book['title'] ?>" >
+        <br>
+        <button type="submit">Salvesta</button>
+    </form>
 
-    <!-- Book Info (Read-only) -->
-    <h2>Raamatu info</h2>
-    <p>Pealkiri: <?= htmlspecialchars($book['title']) ?></p>
-    <p>Aasta: <?= htmlspecialchars($book['release_date']) ?></p>
-    <p>Tüüp: <?= htmlspecialchars($book['type']) ?></p>
-    <p>Hind: <?= htmlspecialchars($book['price']) ?></p>
-    <?php if (!empty($book['cover_path'])): ?>
-        <p>Pilt:</p>
-        <img src="<?= htmlspecialchars($book['cover_path']) ?>" alt="<?= htmlspecialchars($book['title']) ?>" style="max-width:200px; height:auto;">
-    <?php else: ?>
-        <p>Puudub pilt</p>
-    <?php endif; ?>
-
-    <!-- Authors List -->
-    <h2>Autorid</h2>
-    <ul>
-        <?php foreach ($authors as $author): ?>
-            <li>
-                <?= htmlspecialchars($author['first_name'] . ' ' . $author['last_name']) ?>
-                
-                <!-- Delete Author Form -->
-                <form method="post" style="display:inline;" onsubmit="return confirm('Oled kindel, et tahad kustutada?');">
-                    <input type="hidden" name="delete_author" value="<?= $author['id'] ?>">
-                    <button type="submit">Kustuta</button>
-                </form>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-
-    <button>Muuda</button>
 </body>
 </html>
