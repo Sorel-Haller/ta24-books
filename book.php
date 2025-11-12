@@ -139,5 +139,10 @@ $authors = $stmt->fetchAll();
     <form action="./delete.php" method="POST" >
 
     </form>
+
+    
+    <a href="index.php">    
+        <button >Tagasi</button>
+    </a>
 </body>
 </html>
