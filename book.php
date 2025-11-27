@@ -17,7 +17,6 @@ $stmt = $pdo->prepare('SELECT first_name, last_name FROM book_authors ba LEFT JO
 $stmt->execute(['book_id' => $id]);
 $authors = $stmt->fetchAll();
 
-// var_dump($authors);
 
 ?>
 
@@ -27,28 +26,108 @@ $authors = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $book['title']; ?></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        a, button {
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        a {
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        button {
+            background-color: #f44336;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #d7372f;
+        }
+
+        form {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1><?= $book['title']; ?></h1>
+    <div class="container">
+        <h1><?= $book['title']; ?></h1>
 
-    Autorid:
-    <ul>
-<?php foreach ( $authors as $author ) { ?>
-    <li><?= "{$author['first_name']} {$author['last_name']}"; ?></li>
-<?php } ?>
-    </ul>
+        <h3>Autorid:</h3>
+        <ul>
+            <?php foreach ( $authors as $author ) { ?>
+                <li><?= "{$author['first_name']} {$author['last_name']}"; ?></li>
+            <?php } ?>
+        </ul>
+        <ul>
+            <h3>Raamatu info</h3>
+            <p>Aasta: <?= htmlspecialchars($book['release_date']) ?></p>
+            <p>Tüüp: <?= htmlspecialchars($book['type']) ?></p>
+            <p>Keel: <?= htmlspecialchars($book['language']) ?></p>
+            <p>Hind: <?= htmlspecialchars($book['price']) ?></p>
+            <?php if (!empty($book['cover_path'])): ?>
+            <p>Pilt:</p>
+                <img src="<?= htmlspecialchars($book['cover_path']) ?>" alt="<?= htmlspecialchars($book['title']) ?>" style="max-width:200px; height:auto;">
+        </ul>
 
-    <a href="./edit.php?id=<?= $id; ?>">Muuda</a>
-    <br>
+        <a href="./edit.php?id=<?= $id; ?>">Muuda</a>
 
-    <form action="./delete.php" method="post">
-        <input type="hidden" name="id" value="<?= $id; ?>">
-        <button type="submit" name="action" value="delete">Kustuta</button>
-    </form>
+        <form action="./delete.php" method="post">
+            <input type="hidden" name="id" value="<?= $id; ?>">
+            <button type="submit" name="action" value="delete">Kustuta</button>
+        </form>
 
-    <a href="index.php">
-        <button>Tagasi</button>
-    </a>
-
+        <a href="index.php">Tagasi</a>
+    </div>
 </body>
 </html>
+<?php endif; ?>
