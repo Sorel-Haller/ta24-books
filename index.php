@@ -1,32 +1,42 @@
 <?php
 
 require_once('./connection.php');
+$stmt = $pdo->query('SELECT id, title FROM books WHERE is_deleted = 0');
 
-$stmt = $pdo->query('SELECT id, title FROM books');
+?>
 
-while ($row = $stmt->fetch())
-{
-//    echo $row['title']. "<br>";
-    echo "<a href='book.php?id={$row['id']}'>{$row['title']}</a><br>"; 
-}
-
- ?>
-
-<!DOCTYPE html>html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raamatud</title>
+    <title>Document</title>
     <style>
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <a href="add.php">
-        <button>Lisa raamat</button>
-    </a>
+    <div>
+        <input type="text" id="search" placeholder="Otsi">
+    </div>
+    <br>
+    <ul id="book-list">
+
+<?php
+while ( $book = $stmt->fetch() ) {
+?>
+
+    <li>
+        <a class="book" href="./book.php?id=<?= $book['id']; ?>">
+            <?= $book['title']; ?>
+        </a>
+    </li>
+
+<?php
+}
+?>
+
+    </ul>
+    <script src="app.js"></script>
 </body>
-</html> 
+</html>
