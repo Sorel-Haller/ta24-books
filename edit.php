@@ -9,6 +9,22 @@ if ( !isset($_GET['id']) || !$_GET['id'] ) {
 
 $id = $_GET['id'];
 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $price = $_POST['price'];
+    $language = $_POST['language'];
+    $type = $_POST['type'];
+
+    $stmt = $pdo-> prepare('UPDATE books SET price = :price, language = :language, type = :type WHERE id= :id');
+    $stmt->execute([
+        'price' => $price,
+        'language' => $language,
+        'type' => $type,
+        'id' => $id
+    ]);
+
+    echo "<p>Book has been changed!</p>";
+}
+
 $stmt = $pdo->prepare('SELECT * FROM books WHERE id = :id');
 $stmt->execute(['id' => $id]);
 $book = $stmt->fetch();
@@ -20,6 +36,14 @@ $bookAuthorIds = [];
 
 $stmt = $pdo->query('SELECT * FROM authors');
 $authors = $stmt->fetchAll();
+// Fetch unique languages from books table
+$stmt = $pdo->query("SELECT DISTINCT language FROM books ORDER BY language ASC");
+$languages = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+// Fetch unique types from books table
+$stmt = $pdo->query("SELECT DISTINCT type FROM books ORDER BY type ASC");
+$types = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
 
 ?>
 
@@ -122,19 +146,19 @@ $authors = $stmt->fetchAll();
 </head>
 <body>
     <div class="container">
-        <h1>Muuda raamatut: <?= $book['title']; ?></h1>
+        <h1>Change book: <?= $book['title']; ?></h1>
 
         <div class="section">
             <form action="update.php" method="post">
                 <input type="hidden" name="id" value="<?= $id; ?>">
-                <label for="title">Raamatu pealkiri:</label>
+                <label for="title">Title:</label>
                 <input type="text" id="title" name="title" value="<?= $book['title']; ?>">
-                <button type="submit" name="action" value="save">Salvesta</button>
+                <button type="submit" name="action" value="save">Save</button>
             </form>
         </div>
 
         <div class="section">
-            <h3>Autorid:</h3>
+            <h3>Authors:</h3>
             <ul>
             <?php foreach ( $bookAuthors as $author ) {
                     $bookAuthorIds[] = $author['id']; ?>
@@ -149,9 +173,8 @@ $authors = $stmt->fetchAll();
             <?php } ?>
             </ul>
         </div>
-        
         <div class="section">
-            <h3>Lisa autor:</h3>
+            <h3>Add author:</h3>
             <form action="./add-author.php" method="post">
                 <input type="hidden" name="book_id" value="<?= $id; ?>">
                 <select name="author_id" required>
@@ -161,8 +184,35 @@ $authors = $stmt->fetchAll();
                         <option value="<?= $author['id']; ?>"><?= $author['first_name']; ?> <?= $author['last_name']; ?></option>
                     <?php }} ?>
                 </select>
-                <button type="submit" name="action" value="add-author">Lisa</button>
+                <button type="submit" name="action" value="add-author">Add author</button>
             </form>
+        </div>
+        <form method="post">
+            <label for="price">Price: <input type="text" name="price" value="<?=round($book['price'] ?? 0 ,2);?>"></label>
+            <label for="Language">Language:</label>
+            <select name="language">
+                <?php foreach ($languages as $lang): ?>
+                    <option value="<?= htmlspecialchars($lang); ?>"
+                        <?= ($book['language'] === $lang) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($lang); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>  
+            <label for="Type">Type:</label>         
+            <select name="type">
+                <?php foreach ($types as $type): ?>
+                    <option value="<?= htmlspecialchars($type); ?>"
+                        <?= ($book['type'] === $type) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($type); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>           
+            <hr>
+            <button type="submit" name="action" value="save">Save</button>
+        </form>
+        <div>
+            <a href="book.php?id=<?= $book['id']; ?>"><button>Back to book details</button></a>
+            <a href="index.php"><button>Back to book list</button></a>
         </div>
     </div>
 </body>

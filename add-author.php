@@ -6,7 +6,7 @@ $bookId = $_POST['book_id'];
 $authorId = $_POST['author_id'];
 
 if ( !$bookId || !$authorId || !isset($_POST['action']) || $_POST['action'] != 'add-author' ) {
-    echo 'Viga: vigane URL!';
+    echo 'Error: wrong URL!';
     exit();
 }
 

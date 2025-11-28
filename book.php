@@ -102,31 +102,31 @@ $authors = $stmt->fetchAll();
     <div class="container">
         <h1><?= $book['title']; ?></h1>
 
-        <h3>Autorid:</h3>
+        <h3>Authors:</h3>
         <ul>
             <?php foreach ( $authors as $author ) { ?>
                 <li><?= "{$author['first_name']} {$author['last_name']}"; ?></li>
             <?php } ?>
         </ul>
-        <ul>
-            <h3>Raamatu info</h3>
-            <p>Aasta: <?= htmlspecialchars($book['release_date']) ?></p>
-            <p>Tüüp: <?= htmlspecialchars($book['type']) ?></p>
-            <p>Keel: <?= htmlspecialchars($book['language']) ?></p>
-            <p>Hind: <?= htmlspecialchars($book['price']) ?></p>
+        <div>
+            <h3>Book info</h3>
+            <p>Year: <?= htmlspecialchars($book['release_date']) ?></p>
+            <p>Type: <?= htmlspecialchars($book['type']) ?></p>
+            <p>Language: <?= htmlspecialchars($book['language']) ?></p>
+            <p>Price: <?= htmlspecialchars($book['price']) ?></p>
             <?php if (!empty($book['cover_path'])): ?>
-            <p>Pilt:</p>
-                <img src="<?= htmlspecialchars($book['cover_path']) ?>" alt="<?= htmlspecialchars($book['title']) ?>" style="max-width:200px; height:auto;">
-        </ul>
+            <p>Image:</p>
+            <img src="<?= htmlspecialchars($book['cover_path']) ?>" alt="<?= htmlspecialchars($book['title']) ?>" style="max-width:200px; height:auto;">
+        </div>
 
-        <a href="./edit.php?id=<?= $id; ?>">Muuda</a>
+        <a href="./edit.php?id=<?= $id; ?>">Change</a>
 
         <form action="./delete.php" method="post">
             <input type="hidden" name="id" value="<?= $id; ?>">
-            <button type="submit" name="action" value="delete">Kustuta</button>
+            <button type="submit" name="action" value="delete">Delete</button>
         </form>
 
-        <a href="index.php">Tagasi</a>
+        <a href="index.php">Go back</a>
     </div>
 </body>
 </html>

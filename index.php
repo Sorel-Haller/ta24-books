@@ -76,9 +76,9 @@ $stmt = $pdo->query('SELECT id, title FROM books WHERE is_deleted = 0');
 </head>
 <body>
     <div>
-        <input type="text" id="search" placeholder="Otsi">
+        <input type="text" id="search" placeholder="Search">
         <a href="./add-author-form.php">
-            <button>Lisa uus autor</button>
+            <button>Add new author</button>
         </a>
     </div>
     <ul id="book-list">

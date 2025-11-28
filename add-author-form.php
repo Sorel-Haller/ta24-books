@@ -7,7 +7,7 @@ if (isset($_POST['action-submit'])) {
     $last  = trim($_POST['last-name']);
 
     if ($first === '' || $last === '') {
-        echo "Viga: eesnimi ja perekonnanimi peavad olema täidetud!";
+        echo "Error: first and last name have to be filled";
         exit();
     }
 
@@ -26,7 +26,7 @@ if (isset($_POST['action-submit'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lisa uus autor</title>
+    <title>Add new author</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,21 +97,21 @@ if (isset($_POST['action-submit'])) {
 </head>
 <body>
 
-    <h1>Lisa uus autor</h1>
+    <h1>Add new author</h1>
 
     <form action="" method="post">
 
-        <label for="first-name">Eesnimi:</label>
+        <label for="first-name">Fist name:</label>
         <input type="text" id="first-name" name="first-name" required>
 
-        <label for="last-name">Perekonnanimi:</label>
+        <label for="last-name">Last name:</label>
         <input type="text" id="last-name" name="last-name" required>
 
-        <button type="submit" name="action-submit">Lisa autor</button>
+        <button type="submit" name="action-submit">Add author</button>
     </form>
 
     <a href="index.php">
-        <button>Tagasi</button>
+        <button>Go back</button>
     </a>
 
 </body>
