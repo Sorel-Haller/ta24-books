@@ -13,16 +13,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $price = $_POST['price'];
     $language = $_POST['language'];
     $type = $_POST['type'];
+    $cover_path = $_POST['cover_path'];
 
-    $stmt = $pdo-> prepare('UPDATE books SET price = :price, language = :language, type = :type WHERE id= :id');
+    $stmt = $pdo-> prepare('UPDATE books SET price = :price, language = :language, type = :type, cover_path = :cover_path WHERE id= :id');
     $stmt->execute([
+        'id' => $id,
         'price' => $price,
         'language' => $language,
         'type' => $type,
-        'id' => $id
+        'cover_path' => $cover_path,
     ]);
-
-    echo "<p>Book has been changed!</p>";
 }
 
 $stmt = $pdo->prepare('SELECT * FROM books WHERE id = :id');
@@ -36,14 +36,12 @@ $bookAuthorIds = [];
 
 $stmt = $pdo->query('SELECT * FROM authors');
 $authors = $stmt->fetchAll();
-// Fetch unique languages from books table
+
 $stmt = $pdo->query("SELECT DISTINCT language FROM books ORDER BY language ASC");
 $languages = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-// Fetch unique types from books table
 $stmt = $pdo->query("SELECT DISTINCT type FROM books ORDER BY type ASC");
 $types = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
 
 ?>
 
@@ -147,16 +145,14 @@ $types = $stmt->fetchAll(PDO::FETCH_COLUMN);
 <body>
     <div class="container">
         <h1>Change book: <?= $book['title']; ?></h1>
-
         <div class="section">
             <form action="update.php" method="post">
                 <input type="hidden" name="id" value="<?= $id; ?>">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" value="<?= $book['title']; ?>">
-                <button type="submit" name="action" value="save">Save</button>
+                <button type="submit" name="action" value="save">Change title</button>
             </form>
         </div>
-
         <div class="section">
             <h3>Authors:</h3>
             <ul>
@@ -206,7 +202,11 @@ $types = $stmt->fetchAll(PDO::FETCH_COLUMN);
                         <?= htmlspecialchars($type); ?>
                     </option>
                 <?php endforeach; ?>
-            </select>           
+            </select>          
+            <div>
+                <label for="image">Pildi URL:</label>
+                <input type="text" name="cover_path" id="image" value="<?= htmlspecialchars($book['cover_path'] ?? ''); ?>">
+            </div>
             <hr>
             <button type="submit" name="action" value="save">Save</button>
         </form>

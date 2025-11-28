@@ -17,7 +17,6 @@ $stmt = $pdo->prepare('SELECT first_name, last_name FROM book_authors ba LEFT JO
 $stmt->execute(['book_id' => $id]);
 $authors = $stmt->fetchAll();
 
-
 ?>
 
 <!DOCTYPE html>

@@ -15,5 +15,5 @@ $stmt->execute([
     'title' => $_POST['title'],
 ]);
 
-header("Location: ./book.php?id={$id}");
+header("Location: ./edit.php?id={$id}");
 die();
